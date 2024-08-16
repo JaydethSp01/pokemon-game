@@ -1,0 +1,74 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nombre-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 40vh;
+  background-color: #f0f0f0cb;
+  padding: 30px;
+  border-radius: 15px;
+}
+.nombre-panel h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.nombre-panel input {
+  padding: 10px;
+  font-size: 18px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  width: 300px;
+  text-align: center;
+}
+.nombre-panel button {
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nombre-panel button:disabled {
+  background-color: #ccc;
+}
+
+.mokepon-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.mokepon-card {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mokepon-card.selected {
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mokepon-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.mokepon-name {
+  margin-top: 8px;
+  font-size: 16px;
+}
