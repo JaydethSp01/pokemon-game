@@ -1,9 +1,13 @@
-import { useState } from "react";
+import React from "react";
+import AppRoutes from "./routes/AppRoutes";
 import "./App.css";
-import Sala from "./components/Sala";
 
-function App() {
-  return <Sala />;
-}
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <AppRoutes />
+    </div>
+  );
+};
 
 export default App;
