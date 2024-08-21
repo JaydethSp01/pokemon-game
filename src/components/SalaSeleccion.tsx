@@ -21,7 +21,7 @@ const SalaSeleccion: React.FC = () => {
     }
     console.log(jugadorNombre);
   };
-  console.log(mokeponSeleccionado);
+
   return (
     <div>
       {!nombreIngresado ? (

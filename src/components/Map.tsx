@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import mapImage from "../assets/mokemap.png";
+import mapImage from "../../public/mokemap.png";
 import { useMapMovement } from "../hook/useMapMovement";
 
 interface Mokepon {

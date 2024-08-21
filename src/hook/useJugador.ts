@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { unirseAlJuego } from "../services/unirse";
 import { asignarMokepon } from "../services/asignarMokepon";
+import { useNavigate } from "react-router-dom";
 
 // Importa las imágenes
-import hipodogeImage from "../assets/hipodoge.png";
-import capipepoImage from "../assets/capipepo.png";
-import ratigueyaImage from "../assets/mokepons_mokepon_ratigueya_attack.png";
-import hipodogeMapa from "../assets/mokepons_mokepon_hipodoge_attack.png";
-import capipepoMapa from "../assets/mokepons_mokepon_capipepo_attack.png";
-import ratigueyaMapa from "../assets/mokepons_mokepon_ratigueya_attack.png";
-import { useNavigate } from "react-router-dom";
+import hipodogeImage from "../../public/hipodoge.png";
+import capipepoImage from "../../public/capipepo.png";
+import ratigueyaImage from "../../public/mokepons_mokepon_ratigueya_attack.png";
+import hipodogeMapa from "../../public/mokepons_mokepon_hipodoge_attack.png";
+import capipepoMapa from "../../public/mokepons_mokepon_capipepo_attack.png";
+import ratigueyaMapa from "../../public/mokepons_mokepon_ratigueya_attack.png";
 
 interface Mokepon {
   nombre: string;
