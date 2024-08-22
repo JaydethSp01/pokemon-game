@@ -11,21 +11,23 @@ interface Mokepon {
 interface LocationState {
   jugadorNombre: string;
   mokeponSeleccionado: Mokepon;
+  jugadorId: number;
 }
 
 const Map: React.FC = () => {
   const location = useLocation();
-  const { jugadorNombre, mokeponSeleccionado } =
+  const { jugadorNombre, mokeponSeleccionado, jugadorId } =
     location.state as LocationState;
 
   const MAP_WIDTH = 800; // Ancho del mapa
   const MAP_HEIGHT = 600; // Alto del mapa
-  const MOKEPON_SIZE = 50; // Tamaño del Mokepon
+  const MOKEPON_SIZE = 60; // Tamaño del Mokepon
 
   const { posicion, moverMokepon } = useMapMovement(
     MAP_WIDTH,
     MAP_HEIGHT,
-    MOKEPON_SIZE
+    MOKEPON_SIZE,
+    jugadorId
   );
 
   return (

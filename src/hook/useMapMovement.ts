@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { actualizarPosicion } from "../services/actualizarPosicion";
 
 interface Position {
   top: number;
@@ -8,7 +9,8 @@ interface Position {
 export const useMapMovement = (
   mapWidth: number,
   mapHeight: number,
-  mokeponSize: number
+  mokeponSize: number,
+  jugadorId: number // Añade jugadorId como parámetro
 ) => {
   const [posicion, setPosicion] = useState<Position>({ top: 0, left: 0 });
 
@@ -20,28 +22,30 @@ export const useMapMovement = (
 
       switch (direccion) {
         case "arriba":
-          nuevoTop = Math.max(prevPosicion.top - movimiento, 0); // Limita el movimiento hacia arriba
+          nuevoTop = Math.max(prevPosicion.top - movimiento, 0);
           break;
         case "abajo":
           nuevoTop = Math.min(
             prevPosicion.top + movimiento,
             mapHeight - mokeponSize
-          ); // Limita el movimiento hacia abajo
+          );
           break;
         case "izquierda":
-          nuevoLeft = Math.max(prevPosicion.left - movimiento, 0); // Limita el movimiento hacia la izquierda
+          nuevoLeft = Math.max(prevPosicion.left - movimiento, 0);
           break;
         case "derecha":
           nuevoLeft = Math.min(
             prevPosicion.left + movimiento,
             mapWidth - mokeponSize
-          ); // Limita el movimiento hacia la derecha
+          );
           break;
         default:
           break;
       }
 
-      return { top: nuevoTop, left: nuevoLeft };
+      const nuevaPosicion = { top: nuevoTop, left: nuevoLeft };
+      actualizarPosicion(jugadorId, nuevoLeft, nuevoTop); // Llama al servicio para actualizar la posición en el servidor
+      return nuevaPosicion;
     });
   };
 

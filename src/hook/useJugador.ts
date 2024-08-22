@@ -23,6 +23,7 @@ export const useJugador = () => {
   const navigate = useNavigate();
   const [jugadorId, setJugadorId] = useState<number | null>(null);
   const [jugadorNombre, setJugadorNombre] = useState<string>("");
+  const [mokeponEnemigo, setmokeponEnemigo] = useState<Mokepon | null>(null);
   const [mokeponSeleccionado, setMokeponSeleccionado] =
     useState<Mokepon | null>(null);
   const [mokepones, setMokepones] = useState<Mokepon[]>([]);
@@ -93,6 +94,7 @@ export const useJugador = () => {
         state: {
           jugadorNombre: jugadorNombre,
           mokeponSeleccionado: mokeponSeleccionado,
+          jugadorId: jugadorId,
         },
       });
     }

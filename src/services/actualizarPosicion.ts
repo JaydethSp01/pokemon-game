@@ -1,4 +1,8 @@
-const actualizarPosicion = async (jugadorId: number, x: number, y: number) => {
+export const actualizarPosicion = async (
+  jugadorId: number,
+  x: number,
+  y: number
+) => {
   try {
     const response = await fetch(
       `http://localhost:8080/mokepon/${jugadorId}/posicion`,
