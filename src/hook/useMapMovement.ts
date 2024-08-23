@@ -66,8 +66,8 @@ export const useMapMovement = (
 
       // Comprobar si el Mokepon del jugador está cerca del enemigo
       if (
-        Math.abs(nuevaPosicion.left - posicionEnemigo.left) < 80 &&
-        Math.abs(nuevaPosicion.top - posicionEnemigo.top) < 80
+        Math.abs(nuevaPosicion.left - posicionEnemigo.left) < 5 &&
+        Math.abs(nuevaPosicion.top - posicionEnemigo.top) < 5
       ) {
         // Navegar a la batalla pasando los datos del mokepon jugador y enemigo
         navigate("/batalla", {
@@ -85,23 +85,25 @@ export const useMapMovement = (
   };
 
   // Movimiento del enemigo persiguiendo al jugador
+  // Movimiento del enemigo dentro de un rango limitado
   useEffect(() => {
     const moverEnemigo = () => {
+      const movimiento = 10;
       setPosicionEnemigo((prevPosicion) => {
-        let nuevoTop = prevPosicion.top;
-        let nuevoLeft = prevPosicion.left;
+        let nuevoTop =
+          prevPosicion.top + (Math.random() > 0.5 ? movimiento : -movimiento);
+        let nuevoLeft =
+          prevPosicion.left + (Math.random() > 0.5 ? movimiento : -movimiento);
 
-        if (posicionJugador.top > nuevoTop) {
-          nuevoTop += 10;
-        } else if (posicionJugador.top < nuevoTop) {
-          nuevoTop -= 10;
-        }
-
-        if (posicionJugador.left > nuevoLeft) {
-          nuevoLeft += 10;
-        } else if (posicionJugador.left < nuevoLeft) {
-          nuevoLeft -= 10;
-        }
+        // Limitar el movimiento dentro del rango especificado
+        nuevoTop = Math.max(
+          Math.min(nuevoTop, enemigoPosInicial.top + enemigoRango),
+          enemigoPosInicial.top - enemigoRango
+        );
+        nuevoLeft = Math.max(
+          Math.min(nuevoLeft, enemigoPosInicial.left + enemigoRango),
+          enemigoPosInicial.left - enemigoRango
+        );
 
         return { top: nuevoTop, left: nuevoLeft };
       });
