@@ -11,23 +11,40 @@ interface Mokepon {
 interface LocationState {
   jugadorNombre: string;
   mokeponSeleccionado: Mokepon;
+  mokeponEnemigo: Mokepon;
   jugadorId: number;
+  enemigoId: number;
 }
 
 const Map: React.FC = () => {
   const location = useLocation();
-  const { jugadorNombre, mokeponSeleccionado, jugadorId } =
-    location.state as LocationState;
+  const {
+    jugadorNombre,
+    mokeponSeleccionado,
+    mokeponEnemigo,
+    jugadorId,
+    enemigoId,
+  } = location.state as LocationState;
 
-  const MAP_WIDTH = 800; // Ancho del mapa
-  const MAP_HEIGHT = 600; // Alto del mapa
-  const MOKEPON_SIZE = 60; // Tamaño del Mokepon
+  const MAP_WIDTH = 800;
+  const MAP_HEIGHT = 600;
+  const MOKEPON_SIZE = 60;
 
-  const { posicion, moverMokepon } = useMapMovement(
+  const ENEMIGO_RANGO = 100;
+  const ENEMIGO_POS_INICIAL = { top: 300, left: 300 };
+  const enBatalla = false;
+
+  const { posicionJugador, posicionEnemigo, moverMokepon } = useMapMovement(
     MAP_WIDTH,
     MAP_HEIGHT,
     MOKEPON_SIZE,
-    jugadorId
+    jugadorId,
+    enemigoId,
+    ENEMIGO_POS_INICIAL,
+    ENEMIGO_RANGO,
+    mokeponSeleccionado,
+    mokeponEnemigo,
+    enBatalla
   );
 
   return (
@@ -45,8 +62,21 @@ const Map: React.FC = () => {
             alt={mokeponSeleccionado.nombre}
             style={{
               position: "absolute",
-              top: `${posicion.top}px`,
-              left: `${posicion.left}px`,
+              top: `${posicionJugador.top}px`,
+              left: `${posicionJugador.left}px`,
+              width: `${MOKEPON_SIZE}px`,
+              height: `${MOKEPON_SIZE}px`,
+            }}
+          />
+        )}
+        {mokeponEnemigo && (
+          <img
+            src={mokeponEnemigo.fotoMapa}
+            alt={mokeponEnemigo.nombre}
+            style={{
+              position: "absolute",
+              top: `${posicionEnemigo.top}px`,
+              left: `${posicionEnemigo.left}px`,
               width: `${MOKEPON_SIZE}px`,
               height: `${MOKEPON_SIZE}px`,
             }}

@@ -5,6 +5,8 @@ import { useJugador } from "../hook/useJugador";
 
 const SalaSeleccion: React.FC = () => {
   const {
+    mokeponEnemigo,
+    handleMokeponEnemigoSeleccionado,
     jugadorNombre,
     setJugadorNombre,
     mokepones,
@@ -32,6 +34,8 @@ const SalaSeleccion: React.FC = () => {
         />
       ) : (
         <MokeponList
+          handleMokeponEnemigoSeleccionado={handleMokeponEnemigoSeleccionado}
+          mokeponEnemigo={mokeponEnemigo}
           jugadorNombre={jugadorNombre}
           mokepones={mokepones}
           mokeponSeleccionado={mokeponSeleccionado}

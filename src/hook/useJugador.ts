@@ -86,12 +86,20 @@ export const useJugador = () => {
   const handleMokeponSeleccionado = (mokepon: Mokepon) => {
     setMokeponSeleccionado(mokepon);
   };
+  const handleMokeponEnemigoSeleccionado = (mokepon: Mokepon) => {
+    setmokeponEnemigo(mokepon);
+  };
 
   const handleAsignarMokepon = async () => {
-    if (jugadorId && mokeponSeleccionado) {
-      await asignarMokepon(jugadorId, mokeponSeleccionado.nombre);
+    if (jugadorId && mokeponSeleccionado && mokeponEnemigo) {
+      await asignarMokepon(
+        jugadorId,
+        mokeponSeleccionado.nombre,
+        mokeponEnemigo.nombre
+      );
       navigate("/map", {
         state: {
+          mokeponEnemigo: mokeponEnemigo,
           jugadorNombre: jugadorNombre,
           mokeponSeleccionado: mokeponSeleccionado,
           jugadorId: jugadorId,
@@ -101,6 +109,8 @@ export const useJugador = () => {
   };
 
   return {
+    mokeponEnemigo: mokeponEnemigo,
+    handleMokeponEnemigoSeleccionado,
     jugadorId,
     jugadorNombre,
     setJugadorNombre,

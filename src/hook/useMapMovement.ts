@@ -1,22 +1,40 @@
 import { useState, useEffect } from "react";
 import { actualizarPosicion } from "../services/actualizarPosicion";
+import { useNavigate } from "react-router-dom";
 
 interface Position {
   top: number;
   left: number;
 }
 
+interface Mokepon {
+  nombre: string;
+  fotoMapa: string;
+}
+
 export const useMapMovement = (
   mapWidth: number,
   mapHeight: number,
   mokeponSize: number,
-  jugadorId: number // Añade jugadorId como parámetro
+  jugadorId: number,
+  enemigoId: number,
+  enemigoPosInicial: Position,
+  enemigoRango: number,
+  mokeponSeleccionado: Mokepon,
+  mokeponEnemigo: Mokepon,
+  enBatalla: boolean // Nueva bandera para saber si está en batalla
 ) => {
-  const [posicion, setPosicion] = useState<Position>({ top: 0, left: 0 });
+  const [posicionJugador, setPosicionJugador] = useState<Position>({
+    top: 0,
+    left: 0,
+  });
+  const [posicionEnemigo, setPosicionEnemigo] =
+    useState<Position>(enemigoPosInicial);
+  const navigate = useNavigate();
 
   const moverMokepon = (direccion: string) => {
     const movimiento = 20;
-    setPosicion((prevPosicion) => {
+    setPosicionJugador((prevPosicion) => {
       let nuevoTop = prevPosicion.top;
       let nuevoLeft = prevPosicion.left;
 
@@ -44,10 +62,56 @@ export const useMapMovement = (
       }
 
       const nuevaPosicion = { top: nuevoTop, left: nuevoLeft };
-      actualizarPosicion(jugadorId, nuevoLeft, nuevoTop); // Llama al servicio para actualizar la posición en el servidor
+      actualizarPosicion(jugadorId, nuevoLeft, nuevoTop);
+
+      // Comprobar si el Mokepon del jugador está cerca del enemigo
+      if (
+        Math.abs(nuevaPosicion.left - posicionEnemigo.left) < 80 &&
+        Math.abs(nuevaPosicion.top - posicionEnemigo.top) < 80
+      ) {
+        // Navegar a la batalla pasando los datos del mokepon jugador y enemigo
+        navigate("/batalla", {
+          state: {
+            jugadorId,
+            enemigoId,
+            mokeponSeleccionado,
+            mokeponEnemigo,
+          },
+        });
+      }
+
       return nuevaPosicion;
     });
   };
+
+  // Movimiento del enemigo persiguiendo al jugador
+  useEffect(() => {
+    const moverEnemigo = () => {
+      setPosicionEnemigo((prevPosicion) => {
+        let nuevoTop = prevPosicion.top;
+        let nuevoLeft = prevPosicion.left;
+
+        if (posicionJugador.top > nuevoTop) {
+          nuevoTop += 10;
+        } else if (posicionJugador.top < nuevoTop) {
+          nuevoTop -= 10;
+        }
+
+        if (posicionJugador.left > nuevoLeft) {
+          nuevoLeft += 10;
+        } else if (posicionJugador.left < nuevoLeft) {
+          nuevoLeft -= 10;
+        }
+
+        return { top: nuevoTop, left: nuevoLeft };
+      });
+    };
+
+    if (!enBatalla) {
+      const intervalId = setInterval(moverEnemigo, 500); // Movimiento cada 0.5 segundos
+      return () => clearInterval(intervalId);
+    }
+  }, [posicionJugador, enBatalla]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -76,5 +140,5 @@ export const useMapMovement = (
     };
   }, []);
 
-  return { posicion, moverMokepon };
+  return { posicionJugador, posicionEnemigo, moverMokepon };
 };
