@@ -66,8 +66,8 @@ export const useMapMovement = (
 
       // Comprobar si el Mokepon del jugador está cerca del enemigo
       if (
-        Math.abs(nuevaPosicion.left - posicionEnemigo.left) < 5 &&
-        Math.abs(nuevaPosicion.top - posicionEnemigo.top) < 5
+        Math.abs(nuevaPosicion.left - posicionEnemigo.left) < 50 &&
+        Math.abs(nuevaPosicion.top - posicionEnemigo.top) < 50
       ) {
         // Navegar a la batalla pasando los datos del mokepon jugador y enemigo
         navigate("/batalla", {
@@ -110,7 +110,7 @@ export const useMapMovement = (
     };
 
     if (!enBatalla) {
-      const intervalId = setInterval(moverEnemigo, 500); // Movimiento cada 0.5 segundos
+      const intervalId = setInterval(moverEnemigo, 1000); // Movimiento cada 0.5 segundos
       return () => clearInterval(intervalId);
     }
   }, [posicionJugador, enBatalla]);
